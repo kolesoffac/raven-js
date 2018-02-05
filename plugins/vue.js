@@ -14,7 +14,7 @@ function formatComponentName(vm) {
   );
 }
 
-function vuePlugin(Raven, Vue, version, environment) {
+function vuePlugin(Raven, Vue, tags) {
   Vue = Vue || window.Vue;
 
   // quit if Vue isn't on the page
@@ -36,7 +36,6 @@ function vuePlugin(Raven, Vue, version, environment) {
     
     var transaction = "Error in " + metaData.componentName;
     var fingerprint = [metaData.componentName];
-    var tags = {version, environment};
 
     Raven.captureException(error, {
       extra: metaData,
