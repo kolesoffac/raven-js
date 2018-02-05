@@ -14,7 +14,7 @@ function formatComponentName(vm) {
   );
 }
 
-function vuePlugin(Raven, Vue) {
+function vuePlugin(Raven, Vue, version, environment) {
   Vue = Vue || window.Vue;
 
   // quit if Vue isn't on the page
@@ -33,10 +33,19 @@ function vuePlugin(Raven, Vue) {
     if (typeof info !== 'undefined') {
       metaData.lifecycleHook = info;
     }
+    
+    var transaction = "Error in " + metaData.componentName;
+    var fingerprint = [metaData.componentName];
+    var tags = {version, environment};
 
     Raven.captureException(error, {
-      extra: metaData
+      extra: metaData,
+      transaction,
+      fingerprint,
+      tags
     });
+    
+    {fingerprint, transaction, tags}
 
     if (typeof _oldOnError === 'function') {
       _oldOnError.call(this, error, vm, info);
