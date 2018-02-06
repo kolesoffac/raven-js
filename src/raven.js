@@ -359,7 +359,7 @@ Raven.prototype = {
         return func.apply(this, args);
       } catch (e) {
         self._ignoreNextOnError();
-        self.captureException(e, options);
+        self.overrideCaptureException ? self.overrideCaptureException(self, e, args, options) : self.captureException(e, options);
         throw e;
       }
     }
