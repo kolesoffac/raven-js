@@ -35,7 +35,7 @@ function vuePlugin(Raven, Vue, tags) {
     }
     
     var transaction = "Error in " + metaData.componentName;
-    var fingerprint = [metaData.componentName];
+    var fingerprint = [metaData.componentName, error.message];
 
     Raven.captureException(error, {
       extra: metaData,
