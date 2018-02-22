@@ -34,15 +34,18 @@ function vuePlugin(Raven, Vue, tags) {
       metaData.lifecycleHook = info;
     }
     
-    var transaction = "Error in " + metaData.componentName;
-    var fingerprint = [metaData.componentName, error.message];
+    if (metaData.componentName && metaData.propsData) {
+      var transaction = "Error in " + metaData.componentName;
+      var fingerprint = [metaData.componentName, error.message];
 
-    Raven.captureException(error, {
-      extra: metaData,
-      transaction,
-      fingerprint,
-      tags
-    });
+      Raven.captureException(error, {
+        extra: metaData,
+        transaction,
+        fingerprint,
+        tags,
+        logger: "vue"
+      });
+    };
 
     if (typeof _oldOnError === 'function') {
       _oldOnError.call(this, error, vm, info);
