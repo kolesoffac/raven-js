@@ -43,8 +43,6 @@ function vuePlugin(Raven, Vue, tags) {
       fingerprint,
       tags
     });
-    
-    {fingerprint, transaction, tags}
 
     if (typeof _oldOnError === 'function') {
       _oldOnError.call(this, error, vm, info);
